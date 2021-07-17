@@ -35,6 +35,13 @@ def edit_dojo(dojo_id):
     dojo = Dojo.get_dojo_by_id(data)
     return render_template('edit_dojo.html', dojo = dojo)
 
-@app.route('/dojos/<int:dojo_id>/update')
+@app.route('/dojos/<int:dojo_id>/update', methods=['POST'])
 def update_dojo(dojo_id):
-    
+    data = {
+        'id': dojo_id,
+        'name': request.form['dojo_name'],
+        'location': request.form['dojo_location']
+    }
+    Dojo.update_dojo(data)
+
+    return redirect('/')

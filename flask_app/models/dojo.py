@@ -50,4 +50,10 @@ class Dojo():
 
         return dojo
 
-        
+    @classmethod
+    def update_dojo(cls, data):
+
+        query = "UPDATE dojos SET name = %(name)s, location = %(location)s WHERE id = %(id)s;"
+
+        connectToMySQL('dojos_and_ninjas_schema').query_db(query, data)
+
