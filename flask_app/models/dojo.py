@@ -38,3 +38,16 @@ class Dojo():
         query = "DELETE FROM dojos WHERE id = %(id)s;"
 
         connectToMySQL('dojos_and_ninjas_schema').query_db(query, data)
+
+    @classmethod
+    def get_dojo_by_id(cls, data):
+
+        query = "SELECT * FROM dojos WHERE id = %(id)s;"
+
+        result = connectToMySQL('dojos_and_ninjas_schema').query_db(query, data)
+
+        dojo = Dojo(result[0])
+
+        return dojo
+
+        

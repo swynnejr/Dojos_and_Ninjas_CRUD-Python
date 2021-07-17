@@ -27,3 +27,14 @@ def delete_dojo(dojo_id):
     Dojo.delete_dojo(data)
     return redirect('/')
 
+@app.route('/dojos/<int:dojo_id>/edit')
+def edit_dojo(dojo_id):
+    data = {
+        'id': dojo_id
+    }
+    dojo = Dojo.get_dojo_by_id(data)
+    return render_template('edit_dojo.html', dojo = dojo)
+
+@app.route('/dojos/<int:dojo_id>/update')
+def update_dojo(dojo_id):
+    
