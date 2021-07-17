@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>{{dojo.name}} Dojo</h1>
-    <p>Esteemed Ninjas:</p>
+    <h2>Esteemed Ninjas:</h2>
     <table>
         <thead>
             <tr>
@@ -18,6 +18,7 @@
                 <th>Joined On</th>
             </tr>
         </thead>
+        {% if dojo.ninjas|length != 0 %}
         {% for ninja in dojo.ninjas %}
         <tr>
             <td>{{ninja.first_name}}</td>
@@ -30,6 +31,9 @@
             <td>{{ninja.created_at.strftime('%m-%Y')}}</td>
         </tr>
         {% endfor %}
+        {% endif %}
     </table>
+    <h3>Total Ninjas: {{dojo.ninjas|length}}</h3>
+    <a href="/">Main Page</a>
 </body>
 </html>

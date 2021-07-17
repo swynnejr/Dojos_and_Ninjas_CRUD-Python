@@ -12,9 +12,14 @@
     <h2>Dojos</h2>
     <ul>
         {% for dojo in dojos %}
-        <li><a href="/dojos/{{dojo.id}}">{{dojo.name}} (neighborhood : {{dojo.location}})</a></li>
-        <a href="/dojos/{{dojo.id}}/edit">Edit</a><br>
-        <a href="/dojos/{{dojo.id}}/delete">Delete</a><br><br>
+        <li><a href="/dojos/{{dojo.id}}">{{dojo.name}}</a> (neighborhood : {{dojo.location}})
+        <a href="/dojos/{{dojo.id}}/edit">Edit</a>
+        <a href="/dojos/{{dojo.id}}/delete">Delete</a></li>
+        <ul>
+            {% for ninja in dojo.ninjas %}
+            <li>{{ninja.first_name}} {{ninja.last_name}}</li>
+            {% endfor %}
+        </ul>
         {% endfor %}
     </ul>
 
@@ -25,7 +30,8 @@
         First Name: <input type="text" name="first_name"><br>
         Last Name: <input type="text" name="last_name"><br>
         Age: <input type="text" name="age"><br>
-        <select name="dojo_id" id="dojo_id" >
+        <select name="dojo_id" id="dojo_id">
+            <!-- <option disabled selected value="">Choose Your Dojo</option> <<<THIS<< Still lets users submit, but new ninja is not created, and there is no error message, so I diabled it-->
             {% for dojo in dojos %}
             <option value="{{dojo.id}}">{{dojo.name}} ({{dojo.location}})</option>
             {% endfor %}

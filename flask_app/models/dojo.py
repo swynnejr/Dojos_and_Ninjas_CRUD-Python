@@ -30,8 +30,42 @@ class Dojo():
         dojos = []
 
         for item in results:
-            # new_dojo = Dojo(item)
+            # new_dojo = Dojo(item) << If you want to clarify (cls(item)) below.
             dojos.append(cls(item))
+            # I did it the other way in the get_all_dojos_with_ninjas @classmethod below
+        return dojos
+
+    @classmethod
+    def get_all_dojos_with_ninjas(cls):
+
+        query = "SELECT * FROM dojos LEFT JOIN ninjas ON dojos.id = ninjas.dojo_id ORDER BY dojos.id;"
+
+        results = connectToMySQL('dojos_and_ninjas_schema').query_db(query)
+
+        dojos = []
+
+        for item in results:
+            if len(dojos) == 0:
+                new_dojo = Dojo(item)
+                dojos.append(new_dojo)
+            elif dojos[-1].id != item['id']:
+                new_dojo = Dojo(item)
+                dojos.append(new_dojo)
+                # IF you accidentally do the ELIF part the way we did in get_all_dojos WHILE doing it the new way in the if, all the ninjas list out under the first Dojo
+            if item['ninjas.id'] != None:
+                ninja_data = {
+                    'id': item['ninjas.id'],
+                    'first_name': item['first_name'],
+                    'last_name': item['last_name'],
+                    'age': item['age'],
+                    'created_at': item['created_at'],
+                    'updated_at': item['updated_at'],
+                    'dojo_id': item['dojo_id'],
+                }
+                ninja = Ninja(ninja_data)
+                ninja.dojo = new_dojo
+                new_dojo.ninjas.append(ninja)
+                # ^^^^ This part can be done differently, see @classmethod get_all_dojos above
 
         return dojos
 
@@ -45,25 +79,27 @@ class Dojo():
     @classmethod
     def get_dojo_by_id(cls, data):
 
-        query = "SELECT * FROM dojos JOIN ninjas ON dojos.id = ninjas.dojo_id WHERE dojos.id = %(id)s;"
+        query = "SELECT * FROM dojos LEFT JOIN ninjas ON dojos.id = ninjas.dojo_id WHERE dojos.id = %(id)s;"
 
         results = connectToMySQL('dojos_and_ninjas_schema').query_db(query, data)
 
         dojo = Dojo(results[0])
 
         for item in results:
-            ninja_data = {
-                'id': item['ninjas.id'],
-                'first_name': item['first_name'],
-                'last_name': item['last_name'],
-                'age': item['age'],
-                'created_at': item['created_at'],
-                'updated_at': item['updated_at'],
-                'dojo_id': item['dojo_id'],
-            }
-            ninja = Ninja(ninja_data)
-            ninja.dojo = dojo
-            dojo.ninjas.append(ninja)
+            if item['ninjas.id'] != None:
+                print(item['ninjas.id'])
+                ninja_data = {
+                    'id': item['ninjas.id'],
+                    'first_name': item['first_name'],
+                    'last_name': item['last_name'],
+                    'age': item['age'],
+                    'created_at': item['created_at'],
+                    'updated_at': item['updated_at'],
+                    'dojo_id': item['dojo_id'],
+                }
+                ninja = Ninja(ninja_data)
+                ninja.dojo = dojo
+                dojo.ninjas.append(ninja)
 
         return dojo
 
