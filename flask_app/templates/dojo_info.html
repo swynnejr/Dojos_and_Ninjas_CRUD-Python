@@ -9,8 +9,27 @@
 <body>
     <h1>{{dojo.name}} Dojo</h1>
     <p>Esteemed Ninjas:</p>
-    {% for ninja in dojo.ninjas %}
-    <p>{{ninja.first_name}} {{ninja.last_name}}</p>
-    {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Joined On</th>
+            </tr>
+        </thead>
+        {% for ninja in dojo.ninjas %}
+        <tr>
+            <td>{{ninja.first_name}}</td>
+            {% if ninja.last_name == '' %}
+            <td>-</td>
+            {% else %}
+            <td>{{ninja.last_name}}</td>
+            {% endif %}
+            <td>{{ninja.age}}</td>
+            <td>{{ninja.created_at.strftime('%m-%Y')}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
