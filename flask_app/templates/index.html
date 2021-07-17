@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dojo Finder</title>
+</head>
+<body>
+    <h1>Welcome to Dojo Finder</h1>
+
+    <h2>Dojos</h2>
+    <ul>
+        {% for dojo in dojos %}
+        <li>{{dojo.name}} (neighborhood : {{dojo.location}}</li>
+        {% endfor %}
+    </ul>
+
+
+    <a href="/dojos/new">Add a your favorite Dojo</a>
+</body>
+</html>
