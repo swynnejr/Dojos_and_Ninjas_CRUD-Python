@@ -1,5 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 
+from flask_app.models.ninja import Ninja
+
 class Dojo():
 
     def __init__(self, data):
@@ -8,6 +10,7 @@ class Dojo():
         self.location = data['location']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.ninjas = []
 
     @classmethod
     def create_dojo(cls, data):
@@ -42,11 +45,25 @@ class Dojo():
     @classmethod
     def get_dojo_by_id(cls, data):
 
-        query = "SELECT * FROM dojos WHERE id = %(id)s;"
+        query = "SELECT * FROM dojos JOIN ninjas ON dojos.id = ninjas.dojo_id WHERE dojos.id = %(id)s;"
 
-        result = connectToMySQL('dojos_and_ninjas_schema').query_db(query, data)
+        results = connectToMySQL('dojos_and_ninjas_schema').query_db(query, data)
 
-        dojo = Dojo(result[0])
+        dojo = Dojo(results[0])
+
+        for item in results:
+            ninja_data = {
+                'id': item['ninjas.id'],
+                'first_name': item['first_name'],
+                'last_name': item['last_name'],
+                'age': item['age'],
+                'created_at': item['created_at'],
+                'updated_at': item['updated_at'],
+                'dojo_id': item['dojo_id'],
+            }
+            ninja = Ninja(ninja_data)
+            ninja.dojo = dojo
+            dojo.ninjas.append(ninja)
 
         return dojo
 

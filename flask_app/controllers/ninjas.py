@@ -49,3 +49,11 @@ def update_dojo(dojo_id):
 def create_ninja():
     Ninja.create_ninja(request.form)
     return redirect('/')
+
+@app.route('/dojos/<int:dojo_id>')
+def dojo_info(dojo_id):
+    data = {
+        'id': dojo_id
+    }
+    dojo = Dojo.get_dojo_by_id(data)
+    return render_template('dojo_info.html', dojo = dojo)

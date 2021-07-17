@@ -12,7 +12,7 @@
     <h2>Dojos</h2>
     <ul>
         {% for dojo in dojos %}
-        <li>{{dojo.name}} (neighborhood : {{dojo.location}})</li>
+        <li><a href="/dojos/{{dojo.id}}">{{dojo.name}} (neighborhood : {{dojo.location}})</a></li>
         <a href="/dojos/{{dojo.id}}/edit">Edit</a><br>
         <a href="/dojos/{{dojo.id}}/delete">Delete</a><br><br>
         {% endfor %}
