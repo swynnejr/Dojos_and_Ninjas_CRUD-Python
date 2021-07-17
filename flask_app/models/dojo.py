@@ -27,7 +27,7 @@ class Dojo():
         dojos = []
 
         for item in results:
-            new_dojo = Dojo(item)
-            dojos.append(cls(new_dojo))
+            # new_dojo = Dojo(item)
+            dojos.append(cls(item))
 
         return dojos
