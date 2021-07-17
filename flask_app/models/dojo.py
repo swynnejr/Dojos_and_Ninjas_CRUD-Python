@@ -31,3 +31,10 @@ class Dojo():
             dojos.append(cls(item))
 
         return dojos
+
+    @classmethod
+    def delete_dojo(cls, data):
+
+        query = "DELETE FROM dojos WHERE id = %(id)s;"
+
+        connectToMySQL('dojos_and_ninjas_schema').query_db(query, data)

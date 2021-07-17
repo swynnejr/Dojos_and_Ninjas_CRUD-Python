@@ -18,3 +18,12 @@ def new_dojo():
 def create_dojo():
     Dojo.create_dojo(request.form)
     return redirect('/')
+
+@app.route('/dojos/<int:dojo_id>/delete')
+def delete_dojo(dojo_id):
+    data = {
+        'id': dojo_id
+    }
+    Dojo.delete_dojo(data)
+    return redirect('/')
+
