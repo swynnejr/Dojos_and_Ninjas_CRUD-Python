@@ -43,5 +43,9 @@ def update_dojo(dojo_id):
         'location': request.form['dojo_location']
     }
     Dojo.update_dojo(data)
+    return redirect('/')
 
+@app.route('/ninjas/create', methods=['POST'])
+def create_ninja():
+    Ninja.create_ninja(request.form)
     return redirect('/')
